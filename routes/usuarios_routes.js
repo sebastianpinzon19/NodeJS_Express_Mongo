@@ -4,34 +4,63 @@ const usuarioController = require('../controllers/usuarios_controller');
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     Usuario:
+ *       type: object
+ *       properties:
+ *         email:
+ *           type: string
+ *           description: Correo electrónico único del usuario
+ *           example: usuario@example.com
+ *         nombre:
+ *           type: string
+ *           description: Nombre completo del usuario
+ *           example: Juan Pérez
+ *         password:
+ *           type: string
+ *           description: Contraseña encriptada del usuario
+ *           example: hashed_password
+ *         estado:
+ *           type: boolean
+ *           description: Estado del usuario (activo o desactivado)
+ *           example: true
+ *         imagen:
+ *           type: string
+ *           description: URL de la imagen de perfil del usuario
+ *           nullable: true
+ *           example: "https://example.com/imagen.jpg"
+ *         cursos:
+ *           type: array
+ *           description: Lista de IDs de los cursos asociados al usuario
+ *           items:
+ *             type: string
+ *             example: "64b0c4395f1c4f1a9b0f1234"
+ *       required:
+ *         - email
+ *         - nombre
+ *         - password
+ */
+
+/**
+ * @swagger
  * /api/usuarios:
  *   get:
  *     summary: Listar todos los usuarios activos
  *     tags: [Usuario]
  *     responses:
  *       200:
- *         description: Una lista de usuarios
+ *         description: Una lista de usuarios activos
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 type: object
- *                 properties:
- *                   email:
- *                     type: string
- *                   nombre:
- *                     type: string
- *                   password:
- *                     type: string
- *             examples:
- *               example1:
- *                 summary: Una lista de usuarios
- *                 value:
- *                   [
- *                     { "email": "usuario1@example.com", "nombre": "Usuario Uno", "password": "hashed_password" },
- *                     { "email": "usuario2@example.com", "nombre": "Usuario Dos", "password": "hashed_password" }
- *                   ]
+ *                 $ref: '#/components/schemas/Usuario'
+ *       204:
+ *         description: No se encontraron usuarios activos
+ *       500:
+ *         description: Error interno del servidor
  */
 router.get('/', usuarioController.listarUsuarioActivos);
 
@@ -46,17 +75,7 @@ router.get('/', usuarioController.listarUsuarioActivos);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *                 example: usuario@example.com
- *               nombre:
- *                 type: string
- *                 example: Usuario Ejemplo
- *               password:
- *                 type: string
- *                 example: hashed_password
+ *             $ref: '#/components/schemas/Usuario'
  *     responses:
  *       201:
  *         description: Usuario creado exitosamente
@@ -66,6 +85,10 @@ router.get('/', usuarioController.listarUsuarioActivos);
  *               $ref: '#/components/schemas/Usuario'
  *       400:
  *         description: Datos inválidos
+ *       409:
+ *         description: El correo electrónico ya está registrado
+ *       500:
+ *         description: Error interno del servidor
  */
 router.post('/', usuarioController.crearUsuario);
 
@@ -87,19 +110,20 @@ router.post('/', usuarioController.crearUsuario);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               nombre:
- *                 type: string
- *               password:
- *                 type: string
+ *             $ref: '#/components/schemas/Usuario'
  *     responses:
  *       200:
  *         description: Usuario actualizado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Usuario'
  *       400:
  *         description: Datos inválidos
  *       404:
  *         description: Usuario no encontrado
+ *       500:
+ *         description: Error interno del servidor
  */
 router.put('/:email', usuarioController.actualizarUsuario);
 
@@ -121,6 +145,8 @@ router.put('/:email', usuarioController.actualizarUsuario);
  *         description: Usuario desactivado correctamente
  *       404:
  *         description: Usuario no encontrado
+ *       500:
+ *         description: Error interno del servidor
  */
 router.delete('/:email', usuarioController.desactivarUsuario);
 
@@ -148,11 +174,20 @@ router.delete('/:email', usuarioController.desactivarUsuario);
  *                 type: array
  *                 items:
  *                   type: string
+ *                   example: "64b0c4395f1c4f1a9b0f1234"
  *     responses:
  *       200:
  *         description: Cursos agregados al usuario
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Usuario'
+ *       400:
+ *         description: Se requiere un array de IDs de cursos
  *       404:
  *         description: Usuario no encontrado
+ *       500:
+ *         description: Error interno del servidor
  */
 router.post('/:email/cursos', usuarioController.agregarCursosAUsuario);
 
@@ -178,12 +213,11 @@ router.post('/:email/cursos', usuarioController.agregarCursosAUsuario);
  *               type: array
  *               items:
  *                 type: string
- *             examples:
- *               example1:
- *                 summary: Lista de cursos
- *                 value: ["curso1_id", "curso2_id"]
+ *                 example: "64b0c4395f1c4f1a9b0f1234"
  *       404:
  *         description: Usuario o cursos no encontrados
+ *       500:
+ *         description: Error interno del servidor
  */
 router.get('/:usuarioId/cursos', usuarioController.listarCursosDeUsuario);
 
@@ -206,6 +240,8 @@ router.get('/:usuarioId/cursos', usuarioController.listarCursosDeUsuario);
  *         description: Colección de usuarios creada exitosamente
  *       400:
  *         description: Datos inválidos
+ *       500:
+ *         description: Error interno del servidor
  */
 router.post('/coleccion', usuarioController.guardarColeccionUsuarios);
 

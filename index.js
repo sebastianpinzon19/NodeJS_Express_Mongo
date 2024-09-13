@@ -3,6 +3,7 @@ const https = require("https");
 const fs = require("fs");
 const path = require("path");
 const mongoose = require("mongoose");
+const cors = require('cors'); // Asegúrate de importar cors
 
 const cursos = require('./routes/cursos_routes'); // Importa las rutas desde el archivo cursos_routes
 const usuarios = require('./routes/usuarios_routes'); // Importa las rutas desde el archivo usuarios_routes
@@ -32,13 +33,17 @@ const credentials = { key: privateKey, cert: certificate };
 const httpsServer = https.createServer(credentials, app);
 
 const corsOptions = {
-    origin: '*',//permite que cualquier dominio pueda acceder a la api
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',//permite que cualquier metodo pueda acceder a la api
-    allowedHeaders: ['Content-Type', 'Authorization'],//permite que cualquier header pueda acceder a la api
-    //credentials: true,//permite que la api pueda acceder a las credenciales del usuario
+    origin: '*', // Permite cualquier dominio
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    // credentials: true, // Descomentar si necesitas enviar credenciales
 };
+
 //configuracion de swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec.swaggerDocs));
+
+// Aplicar las opciones de CORS
+app.use(cors(corsOptions));
 
 // Endpoints (rutas)
 app.use('/api/usuarios', usuarios);

@@ -9,33 +9,38 @@ const router = express.Router(); // Define el enrutador
  *     Curso:
  *       type: object
  *       required:
- *         - nombre
+ *         - titulo
  *         - descripcion
- *         - activo
+ *         - estado
  *       properties:
  *         id:
  *           type: string
  *           description: ID del curso
- *         nombre:
+ *         titulo:
  *           type: string
- *           description: Nombre del curso
+ *           description: Título del curso
  *         descripcion:
  *           type: string
  *           description: Descripción del curso
- *         activo:
+ *         estado:
  *           type: boolean
  *           description: Estado del curso (activo o inactivo)
- *         usuarios:
- *           type: array
- *           items:
- *             type: string
- *             description: ID de los usuarios asociados al curso
+ *         imagen:
+ *           type: string
+ *           description: Imagen del curso
+ *         alumnos:
+ *           type: number
+ *           description: Cantidad de alumnos inscritos
+ *         calificacion:
+ *           type: number
+ *           description: Calificación del curso
  *       example:
- *         nombre: "Curso de Node.js"
+ *         titulo: "Curso de Node.js"
  *         descripcion: "Aprende a desarrollar aplicaciones backend con Node.js"
- *         activo: true
- *         usuarios:
- *           - "60c72b1f4f1a062b7c4e97a2"
+ *         estado: true
+ *         imagen: "imagen_url"
+ *         alumnos: 10
+ *         calificacion: 4.5
  */
 
 /**
