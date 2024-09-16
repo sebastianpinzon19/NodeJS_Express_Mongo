@@ -1,5 +1,6 @@
 const logic = require('../logic/curso_logic');
 const { cursoSchemaValidation } = require('../validations/curso_validation'); // Importa la validación
+//const { usuarioSchemaValidation } = require('../validations/usuario_validation'); // Importa la validación
 
 // Controlador para listar los cursos activos
 const listarCursosActivos = async (req, res) => {

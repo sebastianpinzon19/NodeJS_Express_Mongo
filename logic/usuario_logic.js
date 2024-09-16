@@ -1,6 +1,6 @@
 const Usuario = require('../models/usuario_model');
 const Curso = require('../models/curso_model');
-
+// const { cursoSchemaValidation } = require('../validations/curso_validation'); // Importa el esquema de validación
 // Función asíncrona para crear un objeto de tipo usuario
 async function crearUsuario(body) {
     // Verificar si el email ya está registrado

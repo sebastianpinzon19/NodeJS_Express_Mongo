@@ -1,5 +1,8 @@
 const logic = require('../logic/usuario_logic');
 const { usuarioSchemaValidation } = require('../validations/usuario_validation');
+//const { cursoSchemaValidation } = require('../validations/curso_validation'); // Importa la validación
+
+const Usuario = require('../models/usuario_model'); // Ajusta la ruta según tu estructura de carpetas
 
 // Controlador para listar los usuarios activos
 const listarUsuarioActivos = async (req, res) => {
@@ -117,10 +120,28 @@ const guardarColeccionUsuarios = async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: 'Error interno del servidor al guardar la colección de usuarios' });
     }
+  
 };
+
+const actualizarCursosDelUsuario = async (email, cursos) => {
+    try {
+      const usuario = await Usuario.findOne({ email });
+      if (!usuario) {
+        throw new Error('Usuario no encontrado');
+      }
+      
+      usuario.cursos = cursos; // Actualiza los cursos del usuario
+      await usuario.save();
+      
+      return usuario; // Devuelve el usuario actualizado
+    } catch (error) {
+      throw new Error(error.message || 'Error al actualizar los cursos del usuario');
+    }
+  };
 
 // Exportar los controladores
 module.exports = {
+    actualizarCursosDelUsuario,
     listarUsuarioActivos,
     crearUsuario,
     actualizarUsuario,

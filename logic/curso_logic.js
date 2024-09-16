@@ -1,5 +1,6 @@
 const Curso = require('../models/curso_model');
 const Usuario = require('../models/usuario_model');
+//const { cursoSchemaValidation } = require('../validations/curso_validation'); // Importa el esquema de validación
 
 // Función asíncrona para crear cursos
 async function crearCurso(body) {

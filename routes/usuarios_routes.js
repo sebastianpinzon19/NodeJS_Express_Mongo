@@ -245,4 +245,75 @@ router.get('/:usuarioId/cursos', usuarioController.listarCursosDeUsuario);
  */
 router.post('/coleccion', usuarioController.guardarColeccionUsuarios);
 
+/**
+ * @swagger
+ * /api/usuarios/{email}/cursos:
+ *   put:
+ *     summary: Actualizar los cursos de un usuario por email
+ *     tags: [Usuario]
+ *     parameters:
+ *       - in: path
+ *         name: email
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Email del usuario
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               cursos:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                   example: ["curso1", "curso2", "curso3"]
+ *             required:
+ *               - cursos
+ *             description: "Array de cursos que se asignarán al usuario."
+ *     responses:
+ *       200:
+ *         description: "Cursos actualizados correctamente."
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 email:
+ *                   type: string
+ *                   example: "usuario@ejemplo.com"
+ *                 cursos:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                   example: ["curso1", "curso2", "curso3"]
+ *       404:
+ *         description: "Usuario no encontrado."
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Usuario no encontrado"
+ *       500:
+ *         description: "Error al actualizar los cursos del usuario."
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Error al actualizar los cursos del usuario"
+ */
+router.put('/:email/cursos', usuarioController.actualizarCursosDelUsuario);
+
+
+
+
+
 module.exports = router;

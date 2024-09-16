@@ -1,5 +1,6 @@
 const express = require('express');
 const cursoController = require('../controllers/Cursos_controller'); // Importa el controlador
+// const { cursoSchemaValidation } = require('../validations/curso_validation'); // Importa el esquema de validación
 const router = express.Router(); // Define el enrutador
 
 /**

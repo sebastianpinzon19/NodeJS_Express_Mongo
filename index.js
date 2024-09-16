@@ -5,8 +5,8 @@ const path = require("path");
 const mongoose = require("mongoose");
 const cors = require('cors'); // Asegúrate de importar cors
 
-const cursos = require('./routes/cursos_routes'); // Importa las rutas desde el archivo cursos_routes
-const usuarios = require('./routes/usuarios_routes'); // Importa las rutas desde el archivo usuarios_routes
+const cursos_routes = require('./routes/cursos_routes'); // Importa las rutas desde el archivo cursos_routes
+const usuarios_routes = require('./routes/usuarios_routes'); // Asegúrate de que el nombre del archivo sea correcto
 
 // Conexión a la base de datos mongodb
 mongoose.connect('mongodb://localhost:27017/userscoursesdb')
@@ -36,18 +36,23 @@ const corsOptions = {
     origin: '*', // Permite cualquier dominio
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: ['Content-Type', 'Authorization'],
-    // credentials: true, // Descomentar si necesitas enviar credenciales
+    credentials: true, // Descomentar si necesitas enviar credenciales
 };
 
 //configuracion de swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec.swaggerDocs));
 
 // Aplicar las opciones de CORS
-app.use(cors(corsOptions));
+app.use(cors(corsOptions)); // Asegúrate de que esta línea esté antes de definir tus rutas
+
+// Ejemplo de uso de path
+const publicPath = path.join(__dirname, 'public'); // Define la ruta pública
+
+app.use(express.static(publicPath)); // Servir archivos estáticos desde la ruta pública
 
 // Endpoints (rutas)
-app.use('/api/usuarios', usuarios);
-app.use('/api/cursos', cursos); // Usar el enrutador para las rutas de cursos
+app.use('/api/usuarios', usuarios_routes);
+app.use('/api/cursos', cursos_routes); // Usar el enrutador para las rutas de cursos
 
 const port = process.env.PORT || 3000;
 httpsServer.listen(port, () => {

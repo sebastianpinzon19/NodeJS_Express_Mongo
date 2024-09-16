@@ -1,5 +1,5 @@
 const swaggerJsDoc = require("swagger-jsdoc");
-const swaggerUi = require("swagger-ui-express");
+const swaggerUi = require("swagger-ui-express"); // Implementar swagger-ui-express
 
 // Metadata acerca de nuestra API
 const swaggerOptions = {
@@ -12,12 +12,22 @@ const swaggerOptions = {
       contact: {
         name: "Sebastian Pinzon Reyes",
       },
-      servers: ["http://localhost:3000"],
+      servers: [
+        {
+          url: "http://localhost:3000",
+        },
+      ],
     },
   },
-  apis: ["./routes/*.js"],
+  apis: ["./routes/*.js", "./controllers/*.js"],
 };
 
-// Dcoumentacion en formato JSON
+// Documentacion en formato JSON
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
-module.exports = { swaggerDocs };
+
+// Asegúrate de que la función acepte 'app' como argumento
+module.exports = function(app) {
+    // Configuración de Swagger
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+    // ... resto del código ...
+};

@@ -1,5 +1,4 @@
 const Joi = require('@hapi/joi');
-
 // Validaciones para el objeto curso
 const cursoSchemaValidation = Joi.object({
     titulo: Joi.string()
