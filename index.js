@@ -5,8 +5,8 @@ const path = require("path");
 const mongoose = require("mongoose");
 const cors = require('cors'); // Asegúrate de importar cors
 
-const cursos_routes = require('./routes/cursos_routes'); // Importa las rutas desde el archivo cursos_routes
-const usuarios_routes = require('./routes/usuarios_routes'); // Asegúrate de que el nombre del archivo sea correcto
+const cursos_routes = require('./routes/Cursos_routes'); // Importa las rutas desde el archivo cursos_routes
+const usuarios_routes = require('./routes/usuarios_routes.js'); // Asegúrate de que el nombre del archivo sea correcto
 
 // Conexión a la base de datos mongodb
 mongoose.connect('mongodb://localhost:27017/userscoursesdb')
